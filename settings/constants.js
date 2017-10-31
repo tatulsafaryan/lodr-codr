@@ -16,6 +16,8 @@ const AppConstants = {
   NUMBER_REG_EXP: /^[+-]?(([0-9])+([.][0-9]*)?|[.][0-9]+)$/,
   SYMBOL_REG_EXP: /^[!@#\$%\^\&*\)\(+=~._-]+$/,
   DB_URL:'127.0.0.1:27017/lodrkodrdb',
+  EMAIL_REG_EXP:  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
+  NAME_REG_EXP:    /^([A-Z]+)+([a-z]+)+([0-9]+)+([-_.])$/
 }
 
 module.exports = AppConstants;
