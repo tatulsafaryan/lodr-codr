@@ -3,10 +3,15 @@ const AppConstants = require('./../settings/constants');
 const ErrorTypes = {
     SUCCESS: 'success',
     VALIDATION_ERROR: 'validation_error',
+    EMAIL_MISSING: 'email_missing',
     USERNAME_MISSING: 'username_missing',
     PASSWORD_MISSING: 'password_missing',
+     INVALID_NAME: 'Invalid_name'
+    INVALID_AGE: 'Invalid_age'
+    INVALID_TYPE: 'Invalid_type',
     INVALID_USERNAME_RANGE: 'invalid_username_range',
     INVALID_PASSWORD_RANGE: 'invalid_password_range',
+    INVALID_EMAIL: 'invalid_email',
     INVALID_USERNAME_IDENTIFIER: 'invalid_username_identifier',
     USER_CREATION_ERROR: 'user_creation_error',
     USER_DELETE_ERROR: 'user_delete_error',
@@ -47,7 +52,7 @@ class Utility {
                             .replace('{max}', AppConstants.USERNAME_MAX_LENGTH);
                 break;
             case ErrorTypes.INVALID_PASSWORD_RANGE:
-                error_object.message = 'Invalid min/max value for password.'; 
+                error_object.message = 'Invalid min/max value for password.';
                 break;
             case ErrorTypes.USER_CREATION_ERROR:
                 error_object.message = 'Failed to create a user.';
@@ -64,6 +69,22 @@ class Utility {
             case ErrorTypes.USER_UPDATE_ERROR:
                 error_object.message = 'User can not updated';
                 break;
+            case ErrorTypes.EMAIL_MISSING:
+                error_object.message = 'Email is not specified.';
+                break;
+            case ErrorTypes.INVALID_EMAIL:
+                error_object.message = 'Email is wrong.';
+                break;
+            case ErrorTypes.INVALID_TYPE:
+                error_object.message = 'Invalit TYPE';
+                break;
+            case ErrorTypes.INVALID_AGE:
+                error_object.message ='Age is wrong';
+                break;
+            case ErrorTypes.INVALID_NAME:
+               error_object.message ='Name is wrong';
+               break;
+
         }
         return error_object;
     }

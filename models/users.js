@@ -37,8 +37,8 @@ let UsersSchema = Schema({
     },
     age: {
         type: Number,
-        minlength: AppConstants.AGE_MIN_LENGTH,
-        maxlength: AppConstants.AGE_MAX_LENGTH,
+        min: AppConstants.AGE_MIN_LENGTH,
+        max: AppConstants.AGE_MAX_LENGTH,
         default: null
     },
     name: {
