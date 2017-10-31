@@ -1,0 +1,17 @@
+{
+  "name": "lodr-codr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "lodr-kodr",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "keygenerator": "^1.0.4",
+    "mongoose": "^4.12.4"
+  }
+}
