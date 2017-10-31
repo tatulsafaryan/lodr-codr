@@ -5,6 +5,8 @@ const ErrorTypes = {
     VALIDATION_ERROR: 'validation_error',
     USERNAME_MISSING: 'username_missing',
     PASSWORD_MISSING: 'password_missing',
+    INVALID_PASSWORD: 'invalid_password',
+    INVALID_USERNAME: 'invalid_username',
     INVALID_USERNAME_RANGE: 'invalid_username_range',
     INVALID_PASSWORD_RANGE: 'invalid_password_range',
     INVALID_USERNAME_IDENTIFIER: 'invalid_username_identifier',
@@ -46,8 +48,14 @@ class Utility {
                 error_object.message = 'Invalid min/max value for username, must be >= {min} and <= {max}, your value is: {val}'.replace('{min}', AppConstants.USERNAME_MIN_LENGTH)
                             .replace('{max}', AppConstants.USERNAME_MAX_LENGTH);
                 break;
+            case ErrorTypes.INVALID_PASSWORD:
+                error_object.message = 'Password can not include "password" word.';
+                break;
+            case ErrorTypes.INVALID_USERNAME:
+                error_object.message = 'Username must have only letters, numbers and (_, -, .) symbols. ';
+                break;
             case ErrorTypes.INVALID_PASSWORD_RANGE:
-                error_object.message = 'Invalid min/max value for password.'; 
+                error_object.message = 'Invalid min/max value for password.';
                 break;
             case ErrorTypes.USER_CREATION_ERROR:
                 error_object.message = 'Failed to create a user.';

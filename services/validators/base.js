@@ -1,9 +1,9 @@
 const AppConstants = require('./../../settings/constants');
 
 const Types = {
+  DATE : 'date',
   STRING : 'string',
   NUMBER : 'number',
-  DATE : 'date',
   SYMBOL : 'symbol'
 }
 
@@ -11,51 +11,46 @@ class BaseValidator {
 
   constructor() {
     this.handlers = {};
+    this.handlers[Types.DATE] = this._isDate;
     this.handlers[Types.STRING] = this._isString;
     this.handlers[Types.NUMBER] = this._isNumber;
     this.handlers[Types.SYMBOL] = this._isSymbol;
-    this.handlers[Types.DATE] = this._isDate;
   }
 
-  validator(str,type) {
+  validator (str,type) {
     if(!this.handlers[type]) {
       return false;
     }
     return this.handlers[type](str);
   }
 
-  _isString(str) {
+  _isString (str) {
      if(!str)
        return false ;
-     if(typeof(str) === 'string')
-       return true;
-     return false;
+     return (typeof(str) === 'string');
   }
 
-  _isNumber(str) {
-     if(!str)
+  _isNumber (str) {
+    if (!str) {
+     return false;
+    }
+    let numberRegExp = AppConstants.NUMBER_REG_EXP;
+    return numberRegExp.test(str);
+  }
+
+  _isDate (str) {
+    if(!str) {
        return false;
-     let numberRegExp = AppConstants.NUMBER_REG_EXP;
-     if(numberRegExp.test(str))
-       return true;
-     return false;
+    }
+    return  Date.parse(str);
   }
 
-  _isDate(str) {
-     if(!str)
-       return false;
-     if(Date.parse(str))
-       return true;
-     return false;
-  }
-
-  _isSymbol(str) {
-    if(!str)
+  _isSymbol (str) {
+    if(!str) {
       return false;
+    }
     let symbolRegExp = AppConstants.SYMBOL_REG_EXP;
-    if(symbolRegExp.test(str))
-      return true;
-    return false;
+    return symbolRegExp.test(str);
   }
 }
 

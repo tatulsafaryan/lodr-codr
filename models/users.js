@@ -19,6 +19,7 @@ let UsersSchema = Schema({
     },
     username: {
         type: String,
+        trim: true,
         index: {unique: true},
         minlength: AppConstants.USERNAME_MIN_LENGTH,
         maxlength: AppConstants.USERNAME_MAX_LENGTH
@@ -44,6 +45,16 @@ let UsersSchema = Schema({
     name: {
         type: String,
         default: null
+    },
+    deleted: {
+    type: Boolean,
+    index: true,
+    default: false
+    },
+    role: {
+    type: String,
+    enum: ['user', 'admin', 'mentor', 'student'],
+    default: 'user'
     }
 });
 

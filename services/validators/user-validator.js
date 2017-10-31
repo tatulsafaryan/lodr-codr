@@ -1,5 +1,8 @@
 const BaseValidator = require('./base');
 
+const UsernameValidator = require('./username-validator');
+const PasswordValidator = require('./password-validator');
+
 const Utility = require('./../utility');
 const AppConstants = require('./../../settings/constants');
 
@@ -9,7 +12,9 @@ class UserValidator extends BaseValidator {
     }
 
     validateUsername(username, sanitize) {
+
         if (!username) {
+
             return Utility.ErrorTypes.USERNAME_MISSING;
         }
         if (username.length < AppConstants.USERNAME_MIN_LENGTH
@@ -17,13 +22,14 @@ class UserValidator extends BaseValidator {
         {
             return Utility.ErrorTypes.INVALID_USERNAME_RANGE;
         }
+        console.log(UsernameValidator.validator(username));
+        return UsernameValidator.validator(username);
         // TODO:
         /*
         if (sanitize) {
             _sanitizeUsername(username);
         }
         */
-        return Utility.ErrorTypes.SUCCESS;
     }
 
     validatePassword(password, sanitize) {
@@ -35,7 +41,8 @@ class UserValidator extends BaseValidator {
       {
           return Utility.ErrorTypes.INVALID_PASSWORD_RANGE;
       }
-      return Utility.ErrorTypes.SUCCESS;
+      let PasswordValid = PasswordValidator.validator(password);
+      return PasswordValid;
     }
 
 }

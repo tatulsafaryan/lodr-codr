@@ -1,7 +1,6 @@
 {
   "name": "lodr-codr",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,5 +12,14 @@
     "express": "^4.16.2",
     "keygenerator": "^1.0.4",
     "mongoose": "^4.12.4"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/armyne/lodr-codr.git"
+  },
+  "bugs": {
+    "url": "https://github.com/armyne/lodr-codr/issues"
+  },
+  "homepage": "https://github.com/armyne/lodr-codr#readme",
+  "description": ""
 }
