@@ -2,24 +2,25 @@ const AppConstants = require('./../settings/constants');
 
 const ErrorTypes = {
     SUCCESS: 'success',
+    INVALID_AGE: 'invalid_age',
+    INVALID_NAME: 'invalid_name',
+    INVALID_TYPE: 'invalid_type',
+    INVALID_EMAIL: 'invalid_email',
+    EMAIL_MISSING: 'email_missing',
+    USER_ID_ERROR: 'user_id_error',
+    UNKNOWN_ERROR: 'unknown_error',
     VALIDATION_ERROR: 'validation_error',
     USERNAME_MISSING: 'username_missing',
     PASSWORD_MISSING: 'password_missing',
-    INVALID_NAME: 'invalid_name',
-    EMAIL_MISSING: 'email_missing',
-    INVALID_EMAIL: 'invalid_email',
-    INVALID_AGE: 'invalid_age',
-    INVALID_TYPE: 'invalid_type',
     INVALID_PASSWORD: 'invalid_password',
     INVALID_USERNAME: 'invalid_username',
+    USER_UPDATE_ERROR: 'user_update_error',
+    USER_DELETE_ERROR: 'user_delete_error',
+    PERMISSION_DENIED: 'permission_denied',
+    USER_CREATION_ERROR: 'user_creation_error',
     INVALID_USERNAME_RANGE: 'invalid_username_range',
     INVALID_PASSWORD_RANGE: 'invalid_password_range',
-    INVALID_USERNAME_IDENTIFIER: 'invalid_username_identifier',
-    USER_CREATION_ERROR: 'user_creation_error',
-    USER_DELETE_ERROR: 'user_delete_error',
-    USER_ID_ERROR: 'user_id_error',
-    USER_UPDATE_ERROR: 'user_update_error',
-    UNKNOWN_ERROR: 'unknown_error'
+    INVALID_USERNAME_IDENTIFIER: 'invalid_username_identifier'
 };
 
 class Utility {
@@ -58,6 +59,9 @@ class Utility {
                 break;
             case ErrorTypes.INVALID_USERNAME:
                 error_object.message = 'Username must have only letters, numbers and (_, -, .) symbols. ';
+                break;
+            case ErrorTypes.PERMISSION_DENIED:
+                error_object.message = 'Don\'t have permission for this operation.';
                 break;
             case ErrorTypes.INVALID_PASSWORD_RANGE:
                 error_object.message = 'Invalid min/max value for password.';
