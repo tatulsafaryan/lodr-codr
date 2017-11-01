@@ -32,9 +32,7 @@ module.exports = function (app) {
 
 
         let uv_response = UserValidator.validateUsername(user.username);
-        console.log(uv_response);
         if (uv_response != Utility.ErrorTypes.SUCCESS) {
-
              return res.send(Utility.generateErrorMessage(uv_response));
          }
 
@@ -42,6 +40,27 @@ module.exports = function (app) {
          if (pass_response != Utility.ErrorTypes.SUCCESS) {
               return res.send(Utility.generateErrorMessage(pass_response));
           }
+
+         if(user.name) {
+             let name_response = UserValidator.validateName(user.name);
+             if (name_response != Utility.ErrorTypes.SUCCESS) {
+                  return res.send(Utility.generateErrorMessage(name_response));
+              }
+         }
+
+         if(user.age) {
+             let age_response = UserValidator.validateAge(user.age);
+             if (age_response != Utility.ErrorTypes.SUCCESS) {
+                  return res.send(Utility.generateErrorMessage(age_response));
+              }
+         }
+
+         if(user.email) {
+             let email_response = UserValidator.validateEmail(user.email);
+             if (email_response != Utility.ErrorTypes.SUCCESS) {
+                  return res.send(Utility.generateErrorMessage(email_response));
+              }
+         }
 
         user.password = crypto.createHash('sha1').update(user.password + 'chlp').digest('hex');
 
@@ -101,9 +120,31 @@ module.exports = function (app) {
            if (uv_response != Utility.ErrorTypes.SUCCESS) {
                 return res.send(Utility.generateErrorMessage(uv_response));
             }
+
             let pass_response = UserValidator.validateUsername(user.password);
             if (pass_response != Utility.ErrorTypes.SUCCESS) {
                  return res.send(Utility.generateErrorMessage(pass_response));
+             }
+
+             if(user.name) {
+                 let name_response = UserValidator.validateName(user.name);
+                 if (name_response != Utility.ErrorTypes.SUCCESS) {
+                      return res.send(Utility.generateErrorMessage(name_response));
+                  }
+             }
+
+             if(user.age) {
+                 let age_response = UserValidator.validateAge(user.age);
+                 if (age_response != Utility.ErrorTypes.SUCCESS) {
+                      return res.send(Utility.generateErrorMessage(age_response));
+                  }
+             }
+
+             if(user.email) {
+                 let email_response = UserValidator.validateEmail(user.email);
+                 if (email_response != Utility.ErrorTypes.SUCCESS) {
+                      return res.send(Utility.generateErrorMessage(email_response));
+                  }
              }
 
            user.password = crypto.createHash('sha1').update(user.password + 'chlp').digest('hex');

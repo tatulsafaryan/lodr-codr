@@ -5,11 +5,11 @@ const ErrorTypes = {
     VALIDATION_ERROR: 'validation_error',
     USERNAME_MISSING: 'username_missing',
     PASSWORD_MISSING: 'password_missing',
-    INVALID_NAME: 'Invalid_name',
+    INVALID_NAME: 'invalid_name',
     EMAIL_MISSING: 'email_missing',
     INVALID_EMAIL: 'invalid_email',
-    INVALID_AGE: 'Invalid_age'
-    INVALID_TYPE: 'Invalid_type',
+    INVALID_AGE: 'invalid_age',
+    INVALID_TYPE: 'invalid_type',
     INVALID_PASSWORD: 'invalid_password',
     INVALID_USERNAME: 'invalid_username',
     INVALID_USERNAME_RANGE: 'invalid_username_range',
@@ -77,8 +77,8 @@ class Utility {
             case ErrorTypes.USER_UPDATE_ERROR:
                 error_object.message = 'User can not updated';
                 break;
-                case ErrorTypes.INVALID_TYPE:
-                error_object.message = 'Invalit TYPE';
+            case ErrorTypes.INVALID_TYPE:
+                error_object.message = 'Invalid TYPE';
                 break;
             case ErrorTypes.INVALID_AGE:
                 error_object.message ='Age is wrong';

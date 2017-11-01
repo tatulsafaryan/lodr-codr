@@ -2,6 +2,9 @@ const BaseValidator = require('./base');
 
 const UsernameValidator = require('./username-validator');
 const PasswordValidator = require('./password-validator');
+const NameValidator = require('./name-validator');
+const AgeValidator = require('./age-validator');
+const EmailValidator = require('./email-validator');
 
 const Utility = require('./../utility');
 const AppConstants = require('./../../settings/constants');
@@ -22,7 +25,7 @@ class UserValidator extends BaseValidator {
         {
             return Utility.ErrorTypes.INVALID_USERNAME_RANGE;
         }
-        console.log(UsernameValidator.validator(username));
+        //console.log(UsernameValidator.validator(username));
         return UsernameValidator.validator(username);
         // TODO:
         /*
@@ -41,10 +44,19 @@ class UserValidator extends BaseValidator {
       {
           return Utility.ErrorTypes.INVALID_PASSWORD_RANGE;
       }
-      let PasswordValid = PasswordValidator.validator(password);
-      return PasswordValid;
+      return PasswordValidator.validator(password);
     }
 
+    validateName(name, sanitize) {
+      return NameValidator.validator(name);
+    }
+
+    validateAge (age, sanitize) {
+      return AgeValidator.validator(age);
+    }
+    validateEmail (email, sanitize) {
+      return EmailValidator.validator(email);
+    }
 }
 
 module.exports = new UserValidator();

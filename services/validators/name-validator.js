@@ -9,18 +9,18 @@ class nameValidator extends BaseValidator
     {
         super();
     }
-    validateName (name)
+    validator (name)
     {
-        if(!super.validator(name, BaseValidator.Types.STRING))
-        {
+        if(!super.validator(name, BaseValidator.Types.STRING)) {
             return Utility.ErrorTypes.INVALID_TYPE
         }
-        if(name.length > AppConstants.NAME_MAX_LENGTH || name.length < AppConstants. NAME_MIN_LENGTH
-        {
+
+        /*if(name.length > AppConstants.NAME_MAX_LENGTH ) {
             return Utility.ErrorTypes.INVALID_NAME;
-        }
+        }*/
+
         let nameRegExp = AppConstants.NAME_REG_EXP;
-        if(emailRegExp.test(name))
+        if(nameRegExp.test(name))
             return Utility.ErrorTypes.SUCCESS;
         return Utility.ErrorTypes.INVALID_NAME;
 

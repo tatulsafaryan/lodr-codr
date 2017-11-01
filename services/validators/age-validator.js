@@ -8,11 +8,11 @@ class ageValidator extends BaseValidator
     {
         super();
     }
-    validateAge (age)
+    validator (age)
     {
         if(!super.validator(age, BaseValidator.Types.NUMBER))
         {
-            return Utility.ErrorTypes.INVALID_TYPE
+            return Utility.ErrorTypes.INVALID_AGE;
         }
         if(parseInt(age) > parseInt(AppConstants.AGE_MAX_LENGTH) || parseInt(age) < parseInt(AppConstants.AGE_MIN_LENGTH))
         {
