@@ -205,4 +205,93 @@ module.exports = function (app) {
       });
     });
 
+///////////////////////////////////create codes area///////////////////////////////////
+
+
+    app.get('/api/codes',(req, res) => {
+      if (!req.query.key) {
+        return res.send(Utility.generateErrorMessage(
+          Utility.ErrorTypes.PERMISSION_DENIED)
+        );
+      }
+      app.db.codes.find({})
+              .skip(req.query.offset)
+              .limit(req.query.limit)
+              .exec((err, data) => {
+                  if (err) {
+                      return res.send('Not found');
+                  }
+                  return res.send(data);
+              });
+    });
+
+    //Create operation
+    app.post('/api/codes', (req, res) => {
+      let code = {
+        content: req.body.content,
+        language: req.body.language,
+        author: req.body.author
+      }
+      app.db.codes.create(code,(err, data) => {
+        if (err) {
+            return res.send(Utility.generateErrorMessage(
+                  Utility.ErrorTypes.USER_CREATION_ERROR)
+                  );
+        }
+        return res.send(data);
+      });
+    });
+
+    //Delete operation
+    app.delete('/api/codes/:id',  (req,res) => {
+      app.db.codes.findOne({author: req.query.key }, (err, user) => {
+        if (err || !user) {
+          return res.send(Utility.generateErrorMessage(
+            Utility.ErrorTypes.PERMISSION_DENIED)
+          );
+        }
+      })
+      let id = req.params.id;
+      if(!id) {
+            return res.send(Utility.generateErrorMessage(
+              Utility.ErrorTypes.USER_ID_ERROR)
+            );
+        }
+      app.db.codes.findOneAndRemove({ _id: id, author: req.query.key } , (err,data)=> {
+           if(err) {
+              return res.send(Utility.generateErrorMessage(
+                Utility.ErrorTypes.USER_DELETE_ERROR)
+              );
+           }
+           return res.send(data);
+        })
+    });
+
+    //Update operation
+    app.put('/api/codes/:id',(req,res) => {
+      if (!req.query.key) {
+        return res.send(Utility.generateErrorMessage(
+          Utility.ErrorTypes.PERMISSION_DENIED)
+        );
+      }
+      app.db.codes.find({_id: req.params.id },(err,data) => {
+        if(err) {
+           return res.send(Utility.generateErrorMessage(
+            Utility.ErrorTypes.USER_ID_ERROR)
+            );
+        }
+        let code = {
+          content: req.body.content,
+          language: req.body.language,
+          author: req.query.key
+        }
+        app.db.codes.update({_id:req.params.id},{$set: code},(err,value) => {
+          if(err) {
+            return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.USER_UPDATE_ERROR));
+          }
+          return res.send(value);
+        });
+      });
+    });
+
 }
