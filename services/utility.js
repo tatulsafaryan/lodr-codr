@@ -8,6 +8,7 @@ const ErrorTypes = {
     INVALID_EMAIL: 'invalid_email',
     EMAIL_MISSING: 'email_missing',
     USER_ID_ERROR: 'user_id_error',
+    CODE_ID_ERROR: 'code_id_error',
     UNKNOWN_ERROR: 'unknown_error',
     VALIDATION_ERROR: 'validation_error',
     USERNAME_MISSING: 'username_missing',
@@ -15,9 +16,13 @@ const ErrorTypes = {
     INVALID_PASSWORD: 'invalid_password',
     INVALID_USERNAME: 'invalid_username',
     USER_UPDATE_ERROR: 'user_update_error',
+    CODE_UPDATE_ERROR: 'code_update_error',
     USER_DELETE_ERROR: 'user_delete_error',
+    CODE_DELETE_ERROR: 'code_delete_error',
     PERMISSION_DENIED: 'permission_denied',
     USER_CREATION_ERROR: 'user_creation_error',
+    CODE_CREATION_ERROR: 'code_creation_error',
+    CODE_PERMISSION_DENIED: 'code_permission_denied',
     INVALID_USERNAME_RANGE: 'invalid_username_range',
     INVALID_PASSWORD_RANGE: 'invalid_password_range',
     INVALID_USERNAME_IDENTIFIER: 'invalid_username_identifier'
@@ -47,6 +52,9 @@ class Utility {
             case ErrorTypes.USERNAME_MISSING:
                 error_object.message = 'Username is not specified.';
                 break;
+            case ErrorTypes.CODE_PERMISSION_DENIED:
+                error_object.message = 'You don\'t have permission for this operation.';
+                break;
             case ErrorTypes.PASSWORD_MISSING:
                 error_object.message = 'Password is not specified.';
                 break;
@@ -69,17 +77,29 @@ class Utility {
             case ErrorTypes.USER_CREATION_ERROR:
                 error_object.message = 'Failed to create a user.';
                 break;
+            case ErrorTypes.CODE_CREATION_ERROR:
+                error_object.message = 'Failed to create a code.';
+                break;
             case ErrorTypes.INVALID_USERNAME_IDENTIFIER:
                 error_object.message = 'User already exists.';
                 break;
             case ErrorTypes.USER_DELETE_ERROR:
                 error_object.message = 'User can not deleted';
                 break;
+            case ErrorTypes.USER_DELETE_ERROR:
+                error_object.message = 'Code can not deleted';
+                break;
             case ErrorTypes.USER_ID_ERROR:
                 error_object.message = 'User id is undefined';
                 break;
+            case ErrorTypes.CODE_ID_ERROR:
+                error_object.message = 'Code id is undefined';
+                break;
             case ErrorTypes.USER_UPDATE_ERROR:
                 error_object.message = 'User can not updated';
+                break;
+            case ErrorTypes.CODE_UPDATE_ERROR:
+                error_object.message = 'Code can not updated';
                 break;
             case ErrorTypes.INVALID_TYPE:
                 error_object.message = 'Invalid TYPE';

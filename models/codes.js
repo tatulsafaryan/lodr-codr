@@ -6,10 +6,6 @@ const AppConstants = require('./../settings/constants');
 
 let CodeSchema = Schema({
     content: {
-      /*title:{
-        type: String,
-        default: 'Code title'
-      }*/
       type: String,
       default: null
     },
@@ -19,7 +15,9 @@ let CodeSchema = Schema({
       default: 'c++'
     },
     author: {
-      type: String,
+      ref: 'users',
+      type: Schema.ObjectId,
+      index: true,
       default: null
     },
     team: {

@@ -4,6 +4,7 @@ const Utility = require('./../services/utility');
 const AppConstants = require('./../settings/constants');
 const UserValidator = require('./../services/validators/user-validator');
 
+
 //CRUD (Create, Read, Update, Delete) operations
 module.exports = function (app) {
     function _auth(permission) {
@@ -36,7 +37,7 @@ module.exports = function (app) {
       }
     }
 
-    //Read operation
+    // Read operation
     app.get('/api/users', _auth('user'), (req, res) => {
       if (!req.query.key) {
         return res.send(Utility.generateErrorMessage(
@@ -56,14 +57,13 @@ module.exports = function (app) {
 
     //Create operation
     app.post('/api/users', _auth('optional'), (req, res) => {
-
       let user = {
               username : req.body.username,
               password : req.body.password,
               name : req.body.name,
               age : req.body.age,
               email : req.body.email
-          }
+      }
 
       let uv_response = UserValidator.validateUsername(user.username);
       if (uv_response != Utility.ErrorTypes.SUCCESS) {
@@ -208,13 +208,14 @@ module.exports = function (app) {
 ///////////////////////////////////create codes area///////////////////////////////////
 
 
-    app.get('/api/codes',(req, res) => {
+    app.get('/api/codes', _auth('user'), (req, res) => {
       if (!req.query.key) {
         return res.send(Utility.generateErrorMessage(
-          Utility.ErrorTypes.PERMISSION_DENIED)
+          Utility.ErrorTypes.CODE_PERMISSION_DENIED)
         );
       }
       app.db.codes.find({})
+              .populate('author',['name', 'username','role'])
               .skip(req.query.offset)
               .limit(req.query.limit)
               .exec((err, data) => {
@@ -226,7 +227,12 @@ module.exports = function (app) {
     });
 
     //Create operation
-    app.post('/api/codes', (req, res) => {
+    app.post('/api/codes', _auth('user'), (req, res) => {
+      if (!req.query.key) {
+        return res.send(Utility.generateErrorMessage(
+          Utility.ErrorTypes.CODE_PERMISSION_DENIED)
+        );
+      }
       let code = {
         content: req.body.content,
         language: req.body.language,
@@ -234,8 +240,9 @@ module.exports = function (app) {
       }
       app.db.codes.create(code,(err, data) => {
         if (err) {
+          console.log(err);
             return res.send(Utility.generateErrorMessage(
-                  Utility.ErrorTypes.USER_CREATION_ERROR)
+                  Utility.ErrorTypes.CODE_CREATION_ERROR)
                   );
         }
         return res.send(data);
@@ -243,51 +250,51 @@ module.exports = function (app) {
     });
 
     //Delete operation
-    app.delete('/api/codes/:id',  (req,res) => {
-      app.db.codes.findOne({author: req.query.key }, (err, user) => {
-        if (err || !user) {
-          return res.send(Utility.generateErrorMessage(
-            Utility.ErrorTypes.PERMISSION_DENIED)
-          );
-        }
-      })
-      let id = req.params.id;
-      if(!id) {
-            return res.send(Utility.generateErrorMessage(
-              Utility.ErrorTypes.USER_ID_ERROR)
-            );
-        }
-      app.db.codes.findOneAndRemove({ _id: id, author: req.query.key } , (err,data)=> {
-           if(err) {
-              return res.send(Utility.generateErrorMessage(
-                Utility.ErrorTypes.USER_DELETE_ERROR)
-              );
-           }
-           return res.send(data);
-        })
-    });
+    app.delete('/api/codes/:id', _auth('user'), (req,res) => {
+       app.db.codes.findOne({author:{_id: req.query._id }}, (err, user) => {
+         if (err || !user) {
+           return res.send(Utility.generateErrorMessage(
+             Utility.ErrorTypes.CODE_PERMISSION_DENIED)
+           );
+         }
+       })
+       let id = req.params.id;
+       if(!id) {
+             return res.send(Utility.generateErrorMessage(
+               Utility.ErrorTypes.CODE_ID_ERROR)
+             );
+         }
+       app.db.codes.findOneAndRemove({ _id: id, author:{_id: req.query._id }} , (err,data)=> {
+            if(err) {
+               return res.send(Utility.generateErrorMessage(
+                 Utility.ErrorTypes.CODE_DELETE_ERROR)
+               );
+            }
+            return res.send(data);
+       })
+     });
 
     //Update operation
-    app.put('/api/codes/:id',(req,res) => {
-      if (!req.query.key) {
+    app.put('/api/codes/:id', _auth('user'), (req,res) => {
+      if (!req.query._id) {
         return res.send(Utility.generateErrorMessage(
-          Utility.ErrorTypes.PERMISSION_DENIED)
+          Utility.ErrorTypes.CODE_PERMISSION_DENIED)
         );
       }
       app.db.codes.find({_id: req.params.id },(err,data) => {
         if(err) {
            return res.send(Utility.generateErrorMessage(
-            Utility.ErrorTypes.USER_ID_ERROR)
+            Utility.ErrorTypes.CODE_ID_ERROR)
             );
         }
         let code = {
           content: req.body.content,
           language: req.body.language,
-          author: req.query.key
+          author: req.query._id
         }
         app.db.codes.update({_id:req.params.id},{$set: code},(err,value) => {
           if(err) {
-            return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.USER_UPDATE_ERROR));
+            return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.CODE_UPDATE_ERROR));
           }
           return res.send(value);
         });

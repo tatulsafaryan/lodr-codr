@@ -23,4 +23,4 @@ app.db = {
 
 require('./controllers/api')(app);
 
-app.listen(3006);
+app.listen(3005);

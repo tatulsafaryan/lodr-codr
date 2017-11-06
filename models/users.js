@@ -26,9 +26,7 @@ let UsersSchema = Schema({
         maxlength: AppConstants.USERNAME_MAX_LENGTH
     },
     password: {
-        type: String,
-        minlength: AppConstants.PASSWORD_MIN_LENGTH,
-        maxlength: AppConstants.PASSWORD_MAX_LENGTH
+        type: String
     },
     email: {
         type: String,
