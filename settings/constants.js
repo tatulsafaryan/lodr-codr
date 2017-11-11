@@ -10,13 +10,13 @@ const AppConstants = {
   EMAIL_MIN_LENGTH: 6,
   EMAIL_MAX_LENGTH:30,
   NAME_MAX_LENGTH:20,
-  USERNAME_REG_EXP: /^[\w+_]{4,24}$/,
+  USERNAME_REG_EXP: /^([\w+_]){4,24}$/,
   PASSWORD_REG_EXP: /^[\w+_-]{6,20}$/,
   NOT_PASSWORD_REG_EXP: /^(\w+)?(password)(\w+)?$/i,
   NUMBER_REG_EXP: /^[+-]?(([0-9])+([.][0-9]*)?|[.][0-9]+)$/,
   SYMBOL_REG_EXP: /^[!@#\$%\^\&*\)\(+=~._-]+$/,
   DB_URL:'127.0.0.1:27017/lodrkodrdb',
-  EMAIL_REG_EXP:  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+  EMAIL_REG_EXP:  /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,5})+$/,
   NAME_REG_EXP: /^[a-zA-Z]+((['_.-][a-zA-Z ])?[a-zA-Z]*)$/,
   PHOTOS_TYPE: /\.(jpg|jpeg|png|PNG)$/
 }

@@ -67,7 +67,6 @@ module.exports = function (app) {
               age : req.body.age,
               email : req.body.email
       }
-
       let uv_response = UserValidator.validateUsername(user.username);
       if (uv_response != Utility.ErrorTypes.SUCCESS) {
         return res.send(Utility.generateErrorMessage(uv_response));
@@ -239,7 +238,7 @@ module.exports = function (app) {
       let code = {
         content: req.body.content,
         language: req.body.language,
-        author: req.body.author
+        author: req.user._id
       }
       app.db.codes.create(code,(err, data) => {
         if (err) {
@@ -307,8 +306,17 @@ module.exports = function (app) {
     ///////////////////////////////creat imige upload-delete operations///////////////
 
 
-    app.post('/api/resources', upload.single('avatar'), (req, res) => {
-
+    app.post('/api/resources', _auth('user'), upload.single('avatar'), (req, res) => {
+        if (!req.query.key) {
+          return res.send(Utility.generateErrorMessage(
+            Utility.ErrorTypes.CODE_PERMISSION_DENIED)
+          );
+        }
+        app.db.resources.findOne({author: req.user._id}, (err,data) => {
+            if(data) {
+                return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.AVATAR_EXIST));
+            }
+        });
         if (!req.file) {
           return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.NO_FILE));
         }
@@ -318,15 +326,15 @@ module.exports = function (app) {
         let dimensions = sizeof('{dest}/{filename}'.replace('{dest}',req.file.destination)
                         .replace('{filename}',req.file.filename));
         let resource = {
+            author:req.user._id,
             content_type: req.file.mimetype,
             size: req.file.size,
-            filename: req.file.filename,
-            buffer: req.file.buffer,
+            title: req.file.filename,
+            image: req.file.buffer,
             width: dimensions.width,
             height: dimensions.height,
             path: req.file.path
         }
-        console.log(resource)
           app.db.resources.create(resource, (err, data) => {
               if(err) {
                 return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.UPLOADING_ERROR));

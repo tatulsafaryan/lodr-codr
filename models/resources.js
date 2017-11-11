@@ -4,6 +4,11 @@ const Schema = mongoose.Schema;
 const AppConstants = require('./../settings/constants');
 
 let ResourcesSchema = Schema({
+  author: {
+    ref: 'users',
+    type: Schema.ObjectId,
+    index: true
+  },
   image: {
     type: Buffer,
     index: {unique: true}
@@ -25,6 +30,11 @@ let ResourcesSchema = Schema({
   },
   path: {
     type: String
+  },
+  uploading_date: {
+    type: Date,
+    index: true,
+    default: Date.now
   }
 });
 

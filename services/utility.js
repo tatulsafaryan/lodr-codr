@@ -5,6 +5,7 @@ const ErrorTypes = {
     NO_FILE: 'no_file',
     PHOTOS_TYPE: 'photos_type_error',
     INVALID_AGE: 'invalid_age',
+    AVATAR_EXIST: 'avatar_exist',
     INVALID_NAME: 'invalid_name',
     INVALID_TYPE: 'invalid_type',
     INVALID_EMAIL: 'invalid_email',
@@ -127,6 +128,9 @@ class Utility {
                 break;
             case ErrorTypes.UPLOADING_ERROR:
                 error_object.message = 'Uploading error';
+                break;
+            case ErrorTypes.AVATAR_EXIST:
+                error_object.message = 'The user most have only one avatar.';
                 break;
         }
         return error_object;

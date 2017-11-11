@@ -17,8 +17,7 @@ let CodeSchema = Schema({
     author: {
       ref: 'users',
       type: Schema.ObjectId,
-      index: true,
-      default: null
+      index: true
     },
     team: {
       type: String,
