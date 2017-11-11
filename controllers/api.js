@@ -1,10 +1,13 @@
 const crypto = require('crypto');
+const multer = require('multer');
+const fs = require('fs');
+const sizeof = require('image-size');
 
 const Utility = require('./../services/utility');
 const AppConstants = require('./../settings/constants');
 const UserValidator = require('./../services/validators/user-validator');
 
-
+const upload = multer({ dest: 'resources/'});
 //CRUD (Create, Read, Update, Delete) operations
 module.exports = function (app) {
     function _auth(permission) {
@@ -301,4 +304,34 @@ module.exports = function (app) {
       });
     });
 
+    ///////////////////////////////creat imige upload-delete operations///////////////
+
+
+    app.post('/api/resources', upload.single('avatar'), (req, res) => {
+
+        if (!req.file) {
+          return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.NO_FILE));
+        }
+        if (!AppConstants.PHOTOS_TYPE.test(req.file.originalname)) {
+            return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.NO_PHOTOS_TYPE))
+        }
+        let dimensions = sizeof('{dest}/{filename}'.replace('{dest}',req.file.destination)
+                        .replace('{filename}',req.file.filename));
+        let resource = {
+            content_type: req.file.mimetype,
+            size: req.file.size,
+            filename: req.file.filename,
+            buffer: req.file.buffer,
+            width: dimensions.width,
+            height: dimensions.height,
+            path: req.file.path
+        }
+        console.log(resource)
+          app.db.resources.create(resource, (err, data) => {
+              if(err) {
+                return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.UPLOADING_ERROR));
+              }
+              return res.send(data);
+          });
+        });
 }

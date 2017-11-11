@@ -6,19 +6,23 @@ const app = express();
 const Utility = require('./services/utility');
 const AppConstants = require('./settings/constants');
 
+
+
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({
     extended: true
 }));
 
 app.use(Utility.parseQuery);
-
 require('./models/users');
 require('./models/codes');
+require('./models/resources');
+
 const con = mongoose.createConnection(AppConstants.DB_URL);
 app.db = {
   users: con.model('users'),
-  codes: con.model('codes')
+  codes: con.model('codes'),
+  resources: con.model('resources')
 }
 
 require('./controllers/api')(app);

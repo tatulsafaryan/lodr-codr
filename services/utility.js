@@ -2,6 +2,8 @@ const AppConstants = require('./../settings/constants');
 
 const ErrorTypes = {
     SUCCESS: 'success',
+    NO_FILE: 'no_file',
+    PHOTOS_TYPE: 'photos_type_error',
     INVALID_AGE: 'invalid_age',
     INVALID_NAME: 'invalid_name',
     INVALID_TYPE: 'invalid_type',
@@ -10,6 +12,7 @@ const ErrorTypes = {
     USER_ID_ERROR: 'user_id_error',
     CODE_ID_ERROR: 'code_id_error',
     UNKNOWN_ERROR: 'unknown_error',
+    UPLOADING_ERROR: 'uploading_error',
     VALIDATION_ERROR: 'validation_error',
     USERNAME_MISSING: 'username_missing',
     PASSWORD_MISSING: 'password_missing',
@@ -115,6 +118,15 @@ class Utility {
                 break;
             case ErrorTypes.INVALID_EMAIL:
                 error_object.message = 'Email is wrong.';
+                break;
+            case ErrorTypes.NO_FILE:
+                error_object.message = 'There is no selected file.';
+                break;
+            case ErrorTypes.PHOTOS_TYPE:
+                error_object.message = 'The selected file is not photo';
+                break;
+            case ErrorTypes.UPLOADING_ERROR:
+                error_object.message = 'Uploading error';
                 break;
         }
         return error_object;
