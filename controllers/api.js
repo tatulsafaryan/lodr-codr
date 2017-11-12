@@ -41,7 +41,7 @@ module.exports = function (app) {
     }
 
     // Read operation
-    app.get('/api/users', _auth('user'), (req, res) => {
+    app.get('/api/users', /*_auth('user'),*/ (req, res) => {
       if (!req.query.key) {
         return res.send(Utility.generateErrorMessage(
           Utility.ErrorTypes.PERMISSION_DENIED)
@@ -305,18 +305,33 @@ module.exports = function (app) {
 
     ///////////////////////////////creat imige upload-delete operations///////////////
 
+    app.get('/api/resources/:id', _auth('user'), (req, res) => {
+      if(!req.query.key) {
+        return res.send(Utility.generateErrorMessage(
+          Utility.ErrorTypes.PHOTO_PERMISSION_DENIED)
+        );
+      }
+      app.db.resources.find({_id: req.params.id})
+            .populate('author',['name', 'username', 'age', 'role'])
+            .exec((err, data) => {
+              if (err) {
+                return res.send('Not found');
+              }
+              res.send(data);
+            });
+    });
 
     app.post('/api/resources', _auth('user'), upload.single('avatar'), (req, res) => {
         if (!req.query.key) {
           return res.send(Utility.generateErrorMessage(
-            Utility.ErrorTypes.CODE_PERMISSION_DENIED)
+            Utility.ErrorTypes.PHOTO_PERMISSION_DENIED)
           );
         }
-        app.db.resources.findOne({author: req.user._id}, (err,data) => {
-            if(data) {
-                return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.AVATAR_EXIST));
-            }
-        });
+        // app.db.resources.findOne({author: req.user._id}, (err,data) => {
+        //     if(data) {
+        //         return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.AVATAR_EXIST));
+        //     }
+        // });
         if (!req.file) {
           return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.NO_FILE));
         }
@@ -342,4 +357,27 @@ module.exports = function (app) {
               return res.send(data);
           });
         });
+
+    app.delete('/api/resources/:id',/* _auth('user'), */(req, res) => {
+            app.db.resources.findOne({id: req.params._id}, (err, data) => {
+              if (err) {
+                return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.PHOTO_DELETE_ERROR));
+              }
+
+              fs.unlink('./resources/' + data.title, (err)=> {
+                console.log('./resources/' + data.title)
+                if(err) {
+                  console.log(err)
+                  return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.PHOTO_DELETE_ERROR));
+                }
+                app.db.resources.findOneAndRemove({ _id: req.params.id}, (err, data) => {
+                  if(err) {
+                    return res.send(Utility.generateErrorMessage(Utility.ErrorTypes.PHOTO_DELETE_ERROR));
+                  }
+                  res.send (data);
+                });
+              });
+            });
+         });
+
 }
