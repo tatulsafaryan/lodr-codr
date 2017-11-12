@@ -23,12 +23,14 @@ const ErrorTypes = {
     CODE_UPDATE_ERROR: 'code_update_error',
     USER_DELETE_ERROR: 'user_delete_error',
     CODE_DELETE_ERROR: 'code_delete_error',
+    PHOTO_DELETE_ERROR: 'photo_delete_error',
     PERMISSION_DENIED: 'permission_denied',
     USER_CREATION_ERROR: 'user_creation_error',
     CODE_CREATION_ERROR: 'code_creation_error',
     CODE_PERMISSION_DENIED: 'code_permission_denied',
     INVALID_USERNAME_RANGE: 'invalid_username_range',
     INVALID_PASSWORD_RANGE: 'invalid_password_range',
+    PHOTO_PERMISSION_DENIED: 'photo_permission_denied',
     INVALID_USERNAME_IDENTIFIER: 'invalid_username_identifier'
 };
 
@@ -75,6 +77,9 @@ class Utility {
             case ErrorTypes.PERMISSION_DENIED:
                 error_object.message = 'Don\'t have permission for this operation.';
                 break;
+            case ErrorTypes.PHOTO_PERMISSION_DENIED:
+                error_object.message = 'Don\'t have permission for this operation.';
+                break;
             case ErrorTypes.INVALID_PASSWORD_RANGE:
                 error_object.message = 'Invalid min/max value for password.';
                 break;
@@ -90,8 +95,11 @@ class Utility {
             case ErrorTypes.USER_DELETE_ERROR:
                 error_object.message = 'User can not deleted';
                 break;
-            case ErrorTypes.USER_DELETE_ERROR:
+            case ErrorTypes.CODE_DELETE_ERROR:
                 error_object.message = 'Code can not deleted';
+                break;
+            case ErrorTypes.PHOTO_DELETE_ERROR:
+                error_object.message = 'Photo can not deleted';
                 break;
             case ErrorTypes.USER_ID_ERROR:
                 error_object.message = 'User id is undefined';
